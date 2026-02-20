@@ -4,6 +4,7 @@ import { cn } from './lib/utils';
 import MarketScanner from './components/dashboard/MarketScanner';
 import StockDeepDive from './components/dashboard/StockDeepDive';
 import DivergenceMap from './components/dashboard/DivergenceMap';
+import KiteLogin from './components/dashboard/KiteLogin';
 
 function App() {
   const [activeTab, setActiveTab] = useState('scanner');
@@ -14,6 +15,7 @@ function App() {
   // Better: Lift state.
   const [futuresData, setFuturesData] = useState([]);
   const [optionsData, setOptionsData] = useState([]);
+  const [kiteAuth, setKiteAuth] = useState(null);
 
   // Data handlers
   const scannerRef = useRef(null);
@@ -43,6 +45,7 @@ function App() {
               F&O Strategy Dashboard
             </h1>
           </div>
+          <KiteLogin onAuthChange={setKiteAuth} />
           <nav className="flex items-center gap-1">
             <button
                 onClick={() => setActiveTab('scanner')}
@@ -84,12 +87,13 @@ function App() {
         */}
 
         {activeTab === 'scanner' && (
-             <MarketScannerWrapper 
-                onSelectStock={handleStockSelect} 
-                futuresData={futuresData} 
+             <MarketScannerWrapper
+                onSelectStock={handleStockSelect}
+                futuresData={futuresData}
                 setFuturesData={setFuturesData}
                 optionsData={optionsData}
                 setOptionsData={setOptionsData}
+                isAuthenticated={!!kiteAuth}
              />
         )}
 
@@ -135,14 +139,14 @@ function App() {
 
 import MarketScannerComponent from './components/dashboard/MarketScanner';
 
-const MarketScannerWrapper = ({ onSelectStock, futuresData, setFuturesData, optionsData, setOptionsData }) => {
-    return <MarketScannerComponent 
+const MarketScannerWrapper = ({ onSelectStock, futuresData, setFuturesData, optionsData, setOptionsData, isAuthenticated }) => {
+    return <MarketScannerComponent
         onSelectStock={onSelectStock}
-        // Passing these down requires MarketScanner to use them.
         externalFuturesData={futuresData}
         setExternalFuturesData={setFuturesData}
         externalOptionsData={optionsData}
         setExternalOptionsData={setOptionsData}
+        isAuthenticated={isAuthenticated}
     />
 };
 

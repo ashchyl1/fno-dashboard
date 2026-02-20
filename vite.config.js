@@ -5,12 +5,20 @@ import { viteSingleFile } from "vite-plugin-singlefile"
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(), 
+    react(),
     viteSingleFile({
         removeViteModuleLoader: true
     })
   ],
   base: './',
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
+  },
   build: {
     target: "esnext", 
     assetsInlineLimit: 100000000,

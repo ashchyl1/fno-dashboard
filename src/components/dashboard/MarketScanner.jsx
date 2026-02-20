@@ -8,13 +8,15 @@ import { scoreConviction } from '../../lib/analysis/conviction';
 import { generateStrategy } from '../../lib/analysis/strategy-engine';
 import { CheckCircle2, ArrowUp, ArrowDown, ExternalLink } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import LiveDataPanel from './LiveDataPanel';
 
-const MarketScanner = ({ 
-    onSelectStock, 
-    externalFuturesData, 
-    setExternalFuturesData, 
-    externalOptionsData, 
-    setExternalOptionsData 
+const MarketScanner = ({
+    onSelectStock,
+    externalFuturesData,
+    setExternalFuturesData,
+    externalOptionsData,
+    setExternalOptionsData,
+    isAuthenticated,
 }) => {
     // Local state fallback if no external state provided (for standalone testing)
     const [localFuturesData, setLocalFuturesData] = useState([]);
@@ -175,6 +177,15 @@ const MarketScanner = ({
                             onDataLoaded={(data) => setOptionsData(parseOptionsData(data))} 
                         />
                     </div>
+                </div>
+
+                {/* Live Data Panel (Kite Connect) */}
+                <div className="md:col-span-2">
+                    <LiveDataPanel
+                        isAuthenticated={isAuthenticated}
+                        onFuturesLoaded={(data) => setFuturesData(data)}
+                        onOptionsLoaded={(data) => setOptionsData(data)}
+                    />
                 </div>
 
                 <div className="md:col-span-2 bg-muted/30 p-4 rounded-xl border border-dashed flex items-center justify-between">
