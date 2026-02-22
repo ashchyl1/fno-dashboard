@@ -4,6 +4,7 @@ import { cn } from './lib/utils';
 import MarketScanner from './components/dashboard/MarketScanner';
 import StockDeepDive from './components/dashboard/StockDeepDive';
 import DivergenceMap from './components/dashboard/DivergenceMap';
+import TokenTracker from './components/TokenTracker';
 
 function App() {
   const [activeTab, setActiveTab] = useState('scanner');
@@ -43,6 +44,8 @@ function App() {
               F&O Strategy Dashboard
             </h1>
           </div>
+          <div className="flex items-center gap-3">
+          <TokenTracker />
           <nav className="flex items-center gap-1">
             <button
                 onClick={() => setActiveTab('scanner')}
@@ -72,6 +75,7 @@ function App() {
                 <BarChart3 className="size-4" /> Divergence
             </button>
           </nav>
+          </div>
         </div>
       </header>
       
