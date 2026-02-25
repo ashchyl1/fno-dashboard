@@ -4,9 +4,10 @@ import { cn } from './lib/utils';
 import MarketScanner from './components/dashboard/MarketScanner';
 import StockDeepDive from './components/dashboard/StockDeepDive';
 import DivergenceMap from './components/dashboard/DivergenceMap';
+import LiveOIDashboard from './components/dashboard/LiveOIDashboard';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('scanner');
+  const [activeTab, setActiveTab] = useState('live-oi');
   const [selectedStock, setSelectedStock] = useState(null);
   
   // We need to lift state up from MarketScanner if we want to share data across tabs 
@@ -71,6 +72,15 @@ function App() {
             >
                 <BarChart3 className="size-4" /> Divergence
             </button>
+            <button
+                onClick={() => setActiveTab('live-oi')}
+                className={cn(
+                  "px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2",
+                  activeTab === 'live-oi' ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"
+                )}
+            >
+                <TrendingUp className="size-4" /> Live OI
+            </button>
           </nav>
         </div>
       </header>
@@ -120,6 +130,10 @@ function App() {
                     }}
                 />
             </div>
+        )}
+
+        {activeTab === 'live-oi' && (
+            <LiveOIDashboard />
         )}
 
       </main>
