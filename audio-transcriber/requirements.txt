@@ -1,0 +1,11 @@
+# Windows system audio capture via WASAPI loopback (PyAudio fork)
+PyAudioWPatch==0.2.12.5
+
+# Local offline speech-to-text
+faster-whisper==1.1.1
+
+# faster-whisper pulls these in but pinning them makes the environment reproducible
+ctranslate2==4.5.0
+huggingface-hub==0.27.1
+tokenizers==0.21.0
+numpy>=1.24,<3
