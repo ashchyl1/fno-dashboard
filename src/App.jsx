@@ -1,12 +1,12 @@
 import { useState, useRef } from 'react';
-import { LayoutDashboard, FileText, BarChart3, TrendingUp, Settings } from 'lucide-react';
+import { LayoutDashboard, FileText, BarChart3, TrendingUp, NotebookPen } from 'lucide-react';
 import { cn } from './lib/utils';
-import MarketScanner from './components/dashboard/MarketScanner';
 import StockDeepDive from './components/dashboard/StockDeepDive';
 import DivergenceMap from './components/dashboard/DivergenceMap';
+import JournalApp from './components/journal/JournalApp';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('scanner');
+  const [activeTab, setActiveTab] = useState('journal');
   const [selectedStock, setSelectedStock] = useState(null);
   
   // We need to lift state up from MarketScanner if we want to share data across tabs 
@@ -45,6 +45,15 @@ function App() {
           </div>
           <nav className="flex items-center gap-1">
             <button
+                onClick={() => setActiveTab('journal')}
+                className={cn(
+                  "px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2",
+                  activeTab === 'journal' ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"
+                )}
+            >
+                <NotebookPen className="size-4" /> Journal
+            </button>
+            <button
                 onClick={() => setActiveTab('scanner')}
                 className={cn(
                   "px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2",
@@ -75,8 +84,10 @@ function App() {
         </div>
       </header>
       
-      <main className="container mx-auto px-4 py-8">
-        
+      <main className="container mx-auto px-4 py-6 max-w-[96rem]">
+
+        {activeTab === 'journal' && <JournalApp />}
+
         {/* We keep MarketScanner mounted or pass data? 
             If we unmount, we lose state. 
             So we should modify MarketScanner to use the App's state. 
