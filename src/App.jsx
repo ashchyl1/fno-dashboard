@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react';
-import { LayoutDashboard, FileText, BarChart3, TrendingUp, Settings } from 'lucide-react';
+import { LayoutDashboard, FileText, BarChart3, TrendingUp, Settings, Activity } from 'lucide-react';
 import { cn } from './lib/utils';
 import MarketScanner from './components/dashboard/MarketScanner';
 import StockDeepDive from './components/dashboard/StockDeepDive';
 import DivergenceMap from './components/dashboard/DivergenceMap';
+import MomentumCalendar from './components/dashboard/MomentumCalendar';
 
 function App() {
   const [activeTab, setActiveTab] = useState('scanner');
@@ -71,6 +72,15 @@ function App() {
             >
                 <BarChart3 className="size-4" /> Divergence
             </button>
+            <button
+                onClick={() => setActiveTab('momentum')}
+                className={cn(
+                  "px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2",
+                  activeTab === 'momentum' ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"
+                )}
+            >
+                <Activity className="size-4" /> Momentum
+            </button>
           </nav>
         </div>
       </header>
@@ -120,6 +130,10 @@ function App() {
                     }}
                 />
             </div>
+        )}
+
+        {activeTab === 'momentum' && (
+            <MomentumCalendar futuresData={futuresData} optionsData={optionsData} />
         )}
 
       </main>

@@ -22,10 +22,17 @@ export const parseFuturesData = (rawData) => {
     const oi = parseFloat(row['Open Interest'] || row['OI'] || row['OI_NO_CON']);
     const volume = parseFloat(row['Volume'] || row['TRADED_QUA']);
 
+    // High/Low/Open are optional in some dumps but required by the Wavy Tunnel
+    // (34 EMA of High and of Low). When they are missing we fall back to close,
+    // and the tunnel module flags that the Wave has collapsed to a single line.
+    const open = parseFloat(row['Open'] || row['OPEN'] || row['OPEN_PRICE'] || row['OPN_PRICE']);
+    const high = parseFloat(row['High'] || row['HIGH'] || row['HIGH_PRIC'] || row['HI_PRICE']);
+    const low = parseFloat(row['Low'] || row['LOW'] || row['LOW_PRIC'] || row['LO_PRICE']);
+
     if (!symbol || !dateStr || isNaN(close)) return;
 
     const key = `${symbol}-${dateStr}`;
-    
+
     // We want the LATEST entry for the day.
     // Simple string comparison for HH:MM:SS works for ISO-like times.
     if (!processed[key] || timeStr > processed[key].time) {
@@ -34,6 +41,9 @@ export const parseFuturesData = (rawData) => {
         date: dateStr, // Keep string for now, or parse to Date obj
         time: timeStr,
         close,
+        open: isNaN(open) ? close : open,
+        high: isNaN(high) ? close : high,
+        low: isNaN(low) ? close : low,
         oi: oi || 0,
         volume: volume || 0,
       };
